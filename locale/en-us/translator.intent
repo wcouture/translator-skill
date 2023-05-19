@@ -1,2 +1,4 @@
 Translate {phrase} to {o_lang}
 How do you say {phrase} in {o_lang}
+Translate this to {o_lang}, {phrase}
+Start translating to {o_lang}, {phrase}
