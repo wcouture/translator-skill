@@ -756,7 +756,15 @@ class Translator(MycroftSkill):
                 break
 
         packagePaths = pathlib.Path("package/").glob("*.argosmodel")
+        neededPath = from_code + "_" + to_code
 
+        for path in packagePaths:
+            if path.name.find() != -1:
+                neededPath = path
+                break
+
+        argostranslate.package.install_from_path(neededPath)
+        
         # Translate
         translatedText = argostranslate.translate.translate(phrase, from_code, to_code)
         phrase = translatedText
