@@ -1,9 +1,10 @@
 from mycroft import MycroftSkill, intent_handler
+import argostranslate.package
+import argostranslate.translate
+import pathlib
+from unidecode import unidecode
 
-class Translator(MycroftSkill):
-    
-    langs = 
-    {
+langs = {
     "ab":{
         "name":"Abkhaz",
         "nativeName":"аҧсуа"
@@ -732,38 +733,36 @@ class Translator(MycroftSkill):
         "name":"Zhuang, Chuang",
         "nativeName":"Saɯ cueŋƅ, Saw cuengh"
     }
-    }
-    
-    
+}
+
+class Translator(MycroftSkill):
+ 
     def __init__(self):
         MycroftSkill.__init__(self)
 
     @intent_handler('translator.intent')
     def handle_translator(self, message):
+
         o_lang = message.data.get('o_lang')
         phrase = message.data.get('phrase')
         
-        for langCode in langs:;
-            if langs[langCode]["name"].find(o_lang) != -1
-                o_lang = langCode
+        to_code = ""
         from_code = "en"
-        to_code = langCode
 
-        # Download and install Argos Translate package
-        #argostranslate.package.update_package_index()
-        #available_packages = argostranslate.package.get_available_packages()
-        #package_to_install = next(
-        #    filter(
-        #        lambda x: x.from_code == from_code and x.to_code == to_code, available_packages
-        #    )
-        #)
-        #argostranslate.package.install_from_path(package_to_install.download())
+        for code in langs:
+            #print(langs[code]["name"].lower(), to_code.lower())
+            if langs[code]["name"].lower().find(o_lang.lower()) != -1:
+                to_code = code
+                break
+
+        packagePaths = pathlib.Path("package/").glob("*.argosmodel")
 
         # Translate
-        translatedText = argostranslate.translate.translate("Hello World", from_code, to_code)
+        translatedText = argostranslate.translate.translate(phrase, from_code, to_code)
         phrase = translatedText
-        # '¡Hola Mundo!'
+        phrase = unidecode(phrase)
 
+        # Speak translated phrase
         self.speak_dialog('translator', data={
             'phrase': phrase
         })
