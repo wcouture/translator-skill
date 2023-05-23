@@ -1,7 +1,5 @@
 from mycroft import MycroftSkill, intent_handler
 
-from translate import Translator as Translate
-
 class Translator(MycroftSkill):
     
     langs = 
