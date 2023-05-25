@@ -759,7 +759,7 @@ class Translator(MycroftSkill):
         neededPath = from_code + "_" + to_code
 
         for path in packagePaths:
-            if path.name.find() != -1:
+            if path.name.find(neededPath) != -1:
                 neededPath = path
                 break
 
